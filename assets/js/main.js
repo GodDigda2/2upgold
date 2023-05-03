@@ -1,70 +1,45 @@
 /*
-	Striped by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+	Caminar by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 */
 
 (function($) {
 
-	var	$window = $(window),
-		$body = $('body'),
-		$document = $(document);
+	skel.breakpoints({
+		xlarge: '(max-width: 1680px)',
+		large: '(max-width: 1280px)',
+		medium: '(max-width: 980px)',
+		small: '(max-width: 736px)',
+		xsmall: '(max-width: 480px)'
+	});
 
-	// Breakpoints.
-		breakpoints({
-			desktop:   [ '737px',   null     ],
-			wide:      [ '1201px',  null     ],
-			narrow:    [ '737px',   '1200px' ],
-			narrower:  [ '737px',   '1000px' ],
-			mobile:    [ null,      '736px'  ]
-		});
+	$(function() {
 
-	// Play initial animations on page load.
-		$window.on('load', function() {
-			window.setTimeout(function() {
-				$body.removeClass('is-preload');
-			}, 100);
-		});
+		var	$window 	= $(window),
+			$body 		= $('body'),
+			$header 	= $('#header');
 
-	// Nav.
+		// Disable animations/transitions until the page has loaded.
+			$body.addClass('is-loading');
 
-		// Height hack.
-		/*
-			var $sc = $('#sidebar, #content'), tid;
+			$window.on('load', function() {
+				window.setTimeout(function() {
+					$body.removeClass('is-loading');
+				}, 100);
+			});
 
-			$window
-				.on('resize', function() {
-					window.clearTimeout(tid);
-					tid = window.setTimeout(function() {
-						$sc.css('min-height', $document.height());
-					}, 100);
-				})
-				.on('load', function() {
-					$window.trigger('resize');
-				})
-				.trigger('resize');
-		*/
+		// Prioritize "important" elements on medium.
+			skel.on('+medium -medium', function() {
+				$.prioritize(
+					'.important\\28 medium\\29',
+					skel.breakpoint('medium').active
+				);
+			});
 
-		// Title Bar.
-			$(
-				'<div id="titleBar">' +
-					'<a href="#sidebar" class="toggle"></a>' +
-					'<span class="title">' + $('#logo').html() + '</span>' +
-				'</div>'
-			)
-				.appendTo($body);
+		// Gallery.
+			$('.gallery').poptrox();
 
-		// Sidebar
-			$('#sidebar')
-				.panel({
-					delay: 500,
-					hideOnClick: true,
-					hideOnSwipe: true,
-					resetScroll: true,
-					resetForms: true,
-					side: 'left',
-					target: $body,
-					visibleClass: 'sidebar-visible'
-				});
+	});
 
 })(jQuery);
